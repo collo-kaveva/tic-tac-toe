@@ -1,0 +1,215 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Segoe UI", system-ui, -apple-system, sans-serif;
+  --color-neon-cyan: #22f0ff;
+  --color-neon-magenta: #ff2bd6;
+  --color-neon-lime: #b8ff3c;
+  --color-neon-amber: #ffc14a;
+  --color-void: #07060f;
+  --color-panel: #12101f;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-display);
+  background: var(--color-void);
+  color: #f4f1ff;
+  overflow: hidden;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes float-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes mark-pop {
+  0% {
+    transform: scale(0.2) rotate(-12deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.18) rotate(3deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes win-line-draw {
+  from {
+    stroke-dashoffset: 220;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--dx), var(--dy), 0) rotate(var(--rot));
+    opacity: 0;
+  }
+}
+
+@keyframes screen-flash {
+  0% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes title-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+@keyframes grid-breathe {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 1px rgba(34, 240, 255, 0.18),
+      0 0 40px rgba(34, 240, 255, 0.08),
+      inset 0 0 40px rgba(255, 43, 214, 0.04);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgba(255, 43, 214, 0.28),
+      0 0 55px rgba(255, 43, 214, 0.12),
+      inset 0 0 50px rgba(34, 240, 255, 0.06);
+  }
+}
+
+@keyframes cursor-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0.35;
+  }
+}
+
+.animate-float-in {
+  animation: float-in 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.animate-mark-pop {
+  animation: mark-pop 0.32s cubic-bezier(0.2, 1.4, 0.3, 1) both;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 1.8s ease-in-out infinite;
+}
+
+.win-line {
+  stroke-dasharray: 220;
+  stroke-dashoffset: 220;
+  animation: win-line-draw 0.45s ease-out forwards;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 999px;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: confetti-fall var(--life) cubic-bezier(0.15, 0.7, 0.25, 1) forwards;
+}
+
+.screen-flash {
+  animation: screen-flash 0.28s ease-out forwards;
+}
+
+.title-gradient {
+  background: linear-gradient(
+    120deg,
+    #22f0ff 0%,
+    #ff2bd6 35%,
+    #b8ff3c 65%,
+    #22f0ff 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: title-shimmer 4s linear infinite;
+}
+
+.board-shell {
+  animation: grid-breathe 3.4s ease-in-out infinite;
+}
+
+.cell-focus {
+  animation: cursor-blink 0.9s step-end infinite;
+}
+
+.scanlines {
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 2px,
+    rgba(255, 255, 255, 0.015) 2px,
+    rgba(255, 255, 255, 0.015) 4px
+  );
+  pointer-events: none;
+}
+
+.crt-vignette {
+  background: radial-gradient(
+    ellipse at center,
+    transparent 40%,
+    rgba(0, 0, 0, 0.45) 100%
+  );
+  pointer-events: none;
+}
+
+/* Smooth 60fps transforms */
+.gpu {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
